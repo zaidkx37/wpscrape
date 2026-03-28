@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get('/site', response_model=SiteInfoResponse)
 async def get_site_info(
-    domain: str = Query(..., description='WordPress/WooCommerce site domain (e.g. boskistores.com)'),
+    domain: str = Query(..., description='WooCommerce site domain'),
 ) -> SiteInfoResponse:
     """Fetch site metadata from a WordPress site."""
     wp = get_wordpress(domain)

@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get('/categories', response_model=list[CategoryResponse])
 async def get_categories(
-    domain: str = Query(..., description='WordPress/WooCommerce site domain (e.g. boskistores.com)'),
+    domain: str = Query(..., description='WooCommerce site domain'),
 ) -> list[CategoryResponse]:
     """Scrape all product categories from a WooCommerce store."""
     wp = get_wordpress(domain)

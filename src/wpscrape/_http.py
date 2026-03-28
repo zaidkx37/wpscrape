@@ -119,4 +119,5 @@ class HTTPClient:
                     time.sleep(delay)
                     continue
 
-        raise RequestError(0, f'Request failed after {self._max_retries + 1} attempts: {last_error}')
+        msg = f'Request failed after {self._max_retries + 1} attempts: {last_error}'
+        raise RequestError(0, msg)

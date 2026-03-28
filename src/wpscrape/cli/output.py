@@ -62,7 +62,7 @@ def print_products(products: list[Product], output_json: bool = False) -> None:
             )
 
         console.print(table)
-        console.print('[dim]%d products[/dim]' % len(products))
+        console.print(f'[dim]{len(products)} products[/dim]')
 
     except ImportError:
         _print_products_plain(products)
@@ -148,7 +148,7 @@ def print_categories(categories: list[Category], output_json: bool = False) -> N
             )
 
         console.print(table)
-        console.print('[dim]%d categories[/dim]' % len(categories))
+        console.print(f'[dim]{len(categories)} categories[/dim]')
 
     except ImportError:
         _print_categories_plain(categories)
@@ -172,7 +172,8 @@ def print_site_info(site: SiteInfo, output_json: bool = False) -> None:
         table.add_row('Name', site.name)
         table.add_row('Description', site.description)
         table.add_row('URL', site.url)
-        table.add_row('WooCommerce', '[green]Yes[/green]' if site.has_woocommerce else '[red]No[/red]')
+        woo = '[green]Yes[/green]' if site.has_woocommerce else '[red]No[/red]'
+        table.add_row('WooCommerce', woo)
         table.add_row('Namespaces', ', '.join(site.namespaces[:10]))
 
         console.print(Panel(table, title=site.name, border_style='cyan'))
@@ -187,8 +188,8 @@ def _print_products_plain(products: list[Product]) -> None:
     for i, p in enumerate(products, start=1):
         stock = 'In Stock' if p.is_in_stock else 'Out of Stock'
         price_str = f'{p.price:.0f}' if p.price else '-'
-        print('%d. %s' % (i, p.name))
-        print('   Price: %s | %s' % (price_str, stock))
+        print(f'{i}. {p.name}')
+        print(f'   Price: {price_str} | {stock}')
         print()
 
 
@@ -196,7 +197,7 @@ def _print_categories_plain(categories: list[Category]) -> None:
     """Fallback plain text output for categories."""
     print('Categories\n')
     for i, c in enumerate(categories, start=1):
-        print('%d. %s (%s) - %d products' % (i, c.name, c.slug, c.count))
+        print(f'{i}. {c.name} ({c.slug}) - {c.count} products')
 
 
 def _print_site_info_plain(site: SiteInfo) -> None:

@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get('/products', response_model=PaginatedProductsResponse | list[ProductResponse])
 async def get_products(
-    domain: str = Query(..., description='WordPress/WooCommerce site domain (e.g. boskistores.com)'),
+    domain: str = Query(..., description='WooCommerce site domain'),
     category: str | None = Query(None, description='Filter by category slug'),
     search: str | None = Query(None, description='Search products by keyword'),
     page: int | None = Query(None, ge=1, description='Page number (omit to fetch all)'),

@@ -100,6 +100,8 @@ class WordPress:
         try:
             data = self._get_json(api_index_url(self._base))
         except RequestError:
+            raise SiteNotFoundError(self._domain) from None
+        if not isinstance(data, dict):
             raise SiteNotFoundError(self._domain)
         return parse_site_info(data)
 
@@ -168,7 +170,7 @@ class WordPress:
         try:
             data = self._get_json(product_by_slug_url(self._base, slug))
         except RequestError:
-            raise ProductNotFoundError(slug)
+            raise ProductNotFoundError(slug) from None
 
         if isinstance(data, list):
             if not data:
@@ -270,7 +272,7 @@ class WordPress:
                 data = self._get_json(url)
             except RequestError:
                 if page == 1:
-                    raise CategoryNotFoundError(slug)
+                    raise CategoryNotFoundError(slug) from None
                 break
             if not isinstance(data, list):
                 break
@@ -314,7 +316,7 @@ class WordPress:
         try:
             data, headers = self._get_response(url)
         except RequestError:
-            raise CategoryNotFoundError(slug)
+            raise CategoryNotFoundError(slug) from None
         products = parse_products(data) if isinstance(data, list) else []
         total, total_pages = self._extract_pagination(headers, page, per_page)
         return PaginatedResponse(

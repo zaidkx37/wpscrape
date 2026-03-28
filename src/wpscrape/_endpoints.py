@@ -37,7 +37,10 @@ def products_by_category_url(
     base: str, category_id: int, page: int = 1, per_page: int = 100,
 ) -> str:
     """WooCommerce Store API products filtered by category ID."""
-    return f'{base}/wp-json/wc/store/v1/products?category={category_id}&page={page}&per_page={per_page}'
+    return (
+        f'{base}/wp-json/wc/store/v1/products'
+        f'?category={category_id}&page={page}&per_page={per_page}'
+    )
 
 
 def products_search_url(base: str, query: str, page: int = 1, per_page: int = 100) -> str:
