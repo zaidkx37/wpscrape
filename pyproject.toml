@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wpscrape"
+version = "0.1.0"
+description = "Scrape any WordPress/WooCommerce store - products, categories & metadata from the public REST API. SDK + CLI + REST API."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Muhammad Zaid" }]
+keywords = [
+    "wordpress", "woocommerce", "scraper", "products", "categories",
+    "ecommerce", "woocommerce-scraper", "store", "sdk",
+    "cli", "rest-api", "no-api-key",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+cli = ["click>=8.0", "rich>=13.0"]
+api = ["fastapi>=0.100.0", "uvicorn[standard]>=0.20.0"]
+all = ["wpscrape[cli,api]"]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0",
+]
+
+[project.scripts]
+wpscrape = "wpscrape.cli.app:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wpscrape"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = "wpscrape.api.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
